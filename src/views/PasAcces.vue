@@ -23,7 +23,7 @@
       <li class="text-danger">Rouge : Non validé</li>
       <li class="text-success">Vert : Validé</li>
     </ul>
-    Si votre vote n'est pas validé, vous devrez le rattraper à la date indiquée.
+    Si votre vote n'est pas validé, vous devrez la rattraper à la date indiquée.
     Si votre vote est validé, aucun rattrapage n'est nécessaire.
     <br>
     📄 <strong>Vous avez la possibilité de le télécharger en PDF.</strong>
@@ -41,20 +41,31 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Module</th>
-            <th scope="col">Notes</th>
+            <th scope="col">Devoir(40%)</th>
+            <th scope="col">Examen(60%)</th>
+            <th scope="col">Moyenne/20</th>
+            <th scope="col">Crédit</th>
             <th scope="col">Résultat</th>
+            <th scope="col">Semestre</th>
             <th scope="col">Niveau</th>
+            <th scope="col">Année</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(note, index) in userNotes" :key="note.id">
             <td>{{ index + 1 }}</td>
             <td>{{ note.module }}</td>
-            <td>{{ note.note }}</td>
+            <td>{{ note.devoir }}</td>
+            <td>{{ note.examen }}</td>
+            <td>{{ note.moyenne }}</td>
+            <td>{{ note.credit }}</td>
             <td :style="note.resultat === 'Admis' ? { backgroundColor: '#C3E6CB' } : note.resultat === 'Refusé' ? { backgroundColor: '#dc3545' } : {}">
               {{ note.resultat }}
             </td>
+
+            <td>{{ note.semestre }}</td>
             <td>{{ note.niveau }}</td>
+            <td>{{ note.annee }}</td>
           </tr>
 
         </tbody>
@@ -112,14 +123,19 @@ export default {
       const tableData = this.userNotes.map((note, index) => [
         index + 1,
         note.module,
-        note.note,
+        note.devoir,
+        note.examen,
+        note.moyenne,
+        note.credit,
         note.resultat,
-        note.niveau
+        note.semestre,
+        note.niveau,
+        note.annee,
       ]);
 
       // Ajouter le tableau
       doc.autoTable({
-        head: [["#", "Module", "Notes", "Résultat", "Niveau"]],
+        head: [["#", "Module", "Devoir(40%)", "Examen(60%)", "Moyenne/20" ,"Crédit" ,"Résultat" ,"Semestre" ,"Niveau" ,"Annee"]],
         body: tableData,
         startY: 20
       });

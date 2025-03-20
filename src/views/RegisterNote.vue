@@ -17,8 +17,42 @@
 
         <!-- Champ Note -->
         <div class="form-group">
-          <label>Note</label>
-          <input type="text" class="form-control" v-model="note" placeholder="Entrez la note"  />
+          <label>Devoir</label>
+          <input type="text" class="form-control" v-model="devoir" placeholder="Entrez la note de devoir"  />
+        </div>
+        <div class="form-group">
+          <label>Examen</label>
+          <input type="text" class="form-control" v-model="examen" placeholder="Entrez la note d'examen"  />
+        </div>
+        <div class="form-group">
+          <label>Moyenne</label>
+          <input type="text" class="form-control" v-model="moyenne" placeholder="Moyenne calculée" readonly />
+        </div>
+
+        <div class="form-group">
+          <label>Crédit</label>
+          <select class="form-control" v-model="credit" >
+            <option value="" disabled>Choisir le nombre de crédit</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Année scolaire</label>
+          <select class="form-control" v-model="annee" >
+            <option value="" disabled>Choisir l'année scolaire</option>
+            <option value="2024-2025">2024-2025</option>
+
+          </select>
         </div>
 
         <!-- Champ Module -->
@@ -47,6 +81,15 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label>Semestre</label>
+          <select class="form-control" v-model="semestre" >
+            <option value="" disabled>Choisir le semestre</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+
 
         <div class="form-group">
           <label>Niveau</label>
@@ -65,10 +108,6 @@
           </select>
         </div>
 
-
-
-
-
         <!-- Bouton de soumission -->
         <button type="submit" class="btn btn-success btn-block mt-3">Ajouter</button>
 
@@ -86,18 +125,29 @@
 <script>
 
 
-import { ref, onMounted } from 'vue';
+import { ref, watch ,onMounted } from 'vue';
 import axios from 'axios';
 
 export default {
   setup() {
     const selectedUserId = ref('');
-    const note = ref('');
+    const devoir = ref('');
     const module = ref('');
     const resultat = ref('');
     const niveau = ref('');
+    const semestre = ref('');
+    const examen = ref('');
+    const moyenne = ref('');
+    const credit = ref('');
+    const annee = ref('');
     const userIds = ref([]);
     const errorMessage = ref('');
+    watch([devoir, examen], () => {
+        const d = parseFloat(devoir.value) || 0;
+        const e = parseFloat(examen.value) || 0;
+        moyenne.value = ((d * 0.4) + (e * 0.6)).toFixed(2); // Arrondi à 2 décimales
+    });
+
 
     // Récupérer les user_id depuis l'API
     const fetchUserIds = async () => {
@@ -117,7 +167,7 @@ export default {
 
     // Enregistrer une nouvelle note
     const createNote = async () => {
-      if (!selectedUserId.value || !note.value || !module.value || !resultat.value || !niveau.value) {
+      if (!selectedUserId.value || !devoir.value || !module.value || !resultat.value || !niveau.value || !semestre.value || !examen.value || !moyenne.value || !credit.value || !annee.value) {
         alert('Tous les champs sont requis');
         return;
       }
@@ -125,20 +175,30 @@ export default {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/notes', {
           user_id: selectedUserId.value,
-          note: note.value,
+          devoir: devoir.value,
           module: module.value,
           resultat: resultat.value,
-          niveau: niveau.value
+          niveau: niveau.value,
+          semestre: semestre.value,
+          credit: credit.value,
+          examen: examen.value,
+          moyenne: moyenne.value,
+          annee: annee.value,
         });
 
         alert('Note ajoutée avec succès');
 
         // Réinitialisation des champs après ajout
         selectedUserId.value = '';
-        note.value = '';
+        devoir.value = '';
         module.value = '';
         resultat.value = '';
         niveau.value = '';
+        semestre.value = '';
+        examen.value = '';
+        moyenne.value = '';
+        credit.value = '';
+        annee.value = '';
         errorMessage.value = ''; // Effacer les erreurs après succès
       } catch (error) {
          alert('Erreur');
@@ -147,7 +207,7 @@ export default {
 
     onMounted(fetchUserIds);
 
-    return { selectedUserId, note, module, resultat, niveau, userIds, createNote, errorMessage };
+    return { selectedUserId, devoir, module, resultat, niveau, userIds, createNote, semestre, examen, moyenne, annee, credit ,errorMessage };
   }
 };
 </script>
