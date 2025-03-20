@@ -165,7 +165,7 @@ export default {
       }
     };
 
-    // Enregistrer une nouvelle note
+    // Enregistrer une nouvelle note//
     const createNote = async () => {
       if (!selectedUserId.value || !devoir.value || !module.value || !resultat.value || !niveau.value || !semestre.value || !examen.value || !moyenne.value || !credit.value || !annee.value) {
         alert('Tous les champs sont requis');
