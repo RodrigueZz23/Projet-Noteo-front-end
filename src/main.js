@@ -5,6 +5,8 @@ import router from './router';
 
 
 
+
+
 // Importation de Bootstrap (si tu en as besoin)
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";

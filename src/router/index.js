@@ -1,26 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import Login from '../views/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'login',
+      component: Login,
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/word',
-      name: 'word',
-      component: () => import('../views/Hellopage.vue'),
-      meta: { requiresAuth: true },
-    },
+
     {
       path: '/register',
       name: 'register',
@@ -28,9 +17,9 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/pasacces',
-      name: 'pasacces',
-      component: () => import('../views/PasAcces.vue'),
+      path: '/note',
+      name: 'note',
+      component: () => import('../views/Note.vue'),
       meta: { requiresAuth: true }, // Uniquement pour les utilisateurs connectés
     },
     {
@@ -39,12 +28,7 @@ const router = createRouter({
       component: () => import('../views/RegisterNote.vue'),
       meta: { requiresAuth: false }, // Uniquement pour les utilisateurs connectés
     },
-    {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/Admin.vue'),
-      meta: { requiresAuth: false }, // Uniquement pour les utilisateurs connectés
-    },
+
   ],
 });
 
